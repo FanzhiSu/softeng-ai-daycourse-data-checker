@@ -23,11 +23,18 @@ pytest
 The same repository is used throughout the day:
 
 1. software design
-2. dependency management and reproducible environments
-3. software testing
-4. version control and safe change
-5. collaborative software development with GitHub and CI
+2. coding a bounded change
+3. environments and dependencies
+4. software testing
+5. version control and safe change
+6. collaborative software development with GitHub and CI
 
-The starter repository intentionally leaves the NumPy dependency underspecified. This is used to demonstrate that dependency versions are part of the software and can affect behaviour even when source code is unchanged.
+The project declares `numpy>=1.26,<2`, so a fresh install produces a working,
+reproducible environment and continuous integration passes from the start. The
+dependency exercise then deliberately creates a second environment with
+NumPy 2.x to demonstrate that identical source code can behave differently in a
+different environment (`summary.py` uses `np.float_`, removed in NumPy 2.0).
 
-The starter code also contains a deliberately simplistic interpretation of duplicate sample IDs. This supports a later lesson about the limits of tests and the need for domain knowledge.
+The starter code also contains a deliberately simplistic interpretation of
+duplicate sample IDs. This supports a later lesson about the limits of tests and
+the need for domain knowledge.

@@ -2,49 +2,74 @@
 
 ## One repository, one Codespace
 
-Each participant should work from a copy/template of this repository and keep the same Codespace open throughout the day.
+Each participant should fork this repository and keep the same Codespace open
+throughout the day. The canonical repository is intended to live under the
+OxfordRSE GitHub organisation.
 
 ## Practical 1: Software design
 
-The practical does not require repository changes. Participants choose a research context, form an initial view, use AI chat to challenge and extend it, and record a lightweight design. The common repository is introduced at the end of the practical.
+The practical does not require repository changes. Participants use the
+incomplete brief (`instructor/practical-1-brief.md`), explore requirements with
+AI chat, and converge on the shared feature: configurable measurement limits.
 
-Expected artefact: `DESIGN.md` or equivalent design notes in the participant's workspace.
+Expected artefact: `DESIGN.md` updated with the shared specification.
 
-## Practical 2: Dependencies & environments
+## Practical 2: Coding a bounded change
 
-The starter `pyproject.toml` deliberately declares a loose NumPy dependency (`numpy>=1.0`). `summary.py` uses `np.float_`, so a fresh installation resolving NumPy 2.x should fail when the CLI runs.
+Target feature (`instructor/practical-2-brief.md`): configurable minimum and
+maximum limits, as function arguments with defaults.
 
-Target sequence:
+Reference change to `src/research_check/cli.py`:
+
+```python
+def check_file(
+    path: Path,
+    *,
+    minimum: float = 0.0,
+    maximum: float = 100.0,
+) -> tuple[int, list[Issue]]:
+    ...
+    issues.extend(check_numeric_range(rows, "measurement", minimum, maximum))
+    ...
+```
+
+A reference solution and test live on the `recovery/p2` branch.
+
+## Practical 3: Environments and dependencies
+
+The baseline declares `numpy>=1.26,<2` and works. Participants create a second
+environment with NumPy 2.x:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install numpy pytest
-python -m research_check.cli examples/observations.csv
+python -m venv .venv2
+source .venv2/bin/activate
+python -m pip install "numpy>=2" pytest
+PYTHONPATH=src python -m research_check.cli examples/observations.csv
 ```
 
-Then pin NumPy 1.26.4, create `requirements.txt`, install from it, and rerun the program.
+This should fail with an `AttributeError` for `np.float_`. Make the distinction
+explicit: the NumPy 2.x environment deliberately conflicts with the project's
+declared `numpy<2` requirement, so this is an API incompatibility rather than
+something isolation resolves.
 
-Suggested final `requirements.txt`:
+Participants record both environments, observed behaviour, the selected
+constraint and the rationale in `ENVIRONMENT.md`. A reference record lives on
+the `recovery/p3` branch.
 
-```text
-numpy==1.26.4
-pytest>=8,<10
-```
+## Practical 4: Software testing
 
-The exercise should demonstrate that source code can remain unchanged while dependency versions change software behaviour.
+Participants add a test for current behaviour and a failing test for the
+non-finite edge case in `check_numeric_range`. The instructor key is
+`instructor/practical-4-key.md`.
 
-## Practical 3: Testing
+Reference solution: `recovery/p4` (failing test plus the `math.isfinite` fix).
 
-Start with the two starter tests already in the repository. Participants add a unit test for `in_range`, deliberately break and repair the implementation, then extend the suite with boundary/edge cases.
+`find_duplicates` must not change. The longitudinal reveal uses
+`examples/longitudinal.csv`.
 
-After they understand the mechanics, ask AI to suggest additional tests for already specified behaviour.
+## Practical 5: Version control
 
-Finally, ask AI to characterise the existing `find_duplicates` behaviour. The resulting test should be retained without yet deciding whether repeated sample IDs are scientifically valid. The later reveal uses `examples/longitudinal.csv`.
-
-## Practical 4: Version control
-
-Participants use the same repository and their actual morning changes.
+Participants use their actual morning changes.
 
 Suggested sequence:
 
@@ -54,23 +79,23 @@ git log --oneline
 git diff
 ```
 
-Make a small manual report change, inspect and commit it. Create a feature branch. Make a second change, inspect it, then recover the earlier state.
+Stage selectively, make coherent commits, create a branch, push it, then make a
+small unwanted change and recover it with `tools/recover.sh`.
 
-After the manual Git exercise, give the coding agent a bounded task. The agent should be explicitly prohibited from staging, committing, pushing, opening PRs/issues, or merging. The participant reviews the working-tree diff and runs the tests before deciding what to do next.
+After the manual Git exercise, give the coding agent a bounded task. The agent
+must not stage, commit, push, open PRs/issues, or merge.
 
-## Practical 5: Collaborative development
+## Practical 6: Collaborative development
 
-Use the same GitHub repository. Instructor should create the issue from `instructor/github-issue.md` before the session.
+Participants work in their own forks. They open an issue from
+`instructor/github-issue-2.md` (a tiny documentation change with an explicit
+interface, boundary and acceptance criterion), then branch, commit, push, open a
+pull request and inspect CI.
 
-Participant sequence:
-
-```text
-issue -> branch -> implement -> test -> commit -> push -> PR -> CI
-```
-
-The PR demonstrates the shared repository as the source of truth and CI as a gate around proposed changes.
-
-For the final agent step, the agent again works only in the working tree. The participant decides when to commit, push and open the PR.
+Review is substantive. Participants review one another's pull requests where
+possible. A prepared fallback pull request on the `review/exercise` branch
+contains a deliberate scope/acceptance problem; the answer is in
+`instructor/practical-6-pr-review-key.md`.
 
 ## Final reveal
 
@@ -80,4 +105,13 @@ Run:
 python -m research_check.cli examples/longitudinal.csv
 ```
 
-Repeated sample IDs are reported as duplicates. The characterisation test still passes, Git history still looks coherent, and CI can be green. The issue is a domain/specification assumption: longitudinal observations are uniquely identified by `(sample_id, timepoint)`, not `sample_id` alone.
+Repeated sample IDs are reported as duplicates. The characterisation test still
+passes, Git history still looks coherent, and CI can be green. The issue is a
+domain/specification assumption: longitudinal observations are uniquely
+identified by `(sample_id, timepoint)`, not `sample_id` alone.
+
+## Recovery checkpoints
+
+`tools/recover.sh <baseline|p2|p3|p4>` restores a checkpoint into the working
+tree as **unstaged** changes, so Practical 5 still has real work to inspect.
+It backs up and stashes existing work first, and never discards it.
