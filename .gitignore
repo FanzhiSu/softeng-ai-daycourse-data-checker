@@ -1,0 +1,10 @@
+.venv/
+.venv*/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+*.egg-info/
+.DS_Store
+
+# Local safety backups created by tools/recover.sh
+.recovery-backups/
