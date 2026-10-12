@@ -1,0 +1,42 @@
+"""Command-line entry point."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+from pathlib import Path
+
+from .checks import Issue, check_numeric_range, find_duplicates, find_missing
+from .report import format_report
+from .summary import mean_as_float
+
+
+def load_rows(path: Path) -> list[dict[str, str]]:
+    with path.open(newline="", encoding="utf-8") as handle:
+        return list(csv.DictReader(handle))
+
+
+def check_file(path: Path) -> tuple[int, list[Issue]]:
+    rows = load_rows(path)
+    issues: list[Issue] = []
+    issues.extend(find_missing(rows, "measurement"))
+    issues.extend(find_duplicates(rows, "sample_id"))
+    issues.extend(check_numeric_range(rows, "measurement", 0.0, 100.0))
+    measurements = [float(r["measurement"]) for r in rows if r.get("measurement", "").strip()]
+    if measurements:
+        _ = mean_as_float(measurements)
+    return len(rows), issues
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Check a research data CSV.")
+    parser.add_argument("csv_file", type=Path)
+    args = parser.parse_args()
+
+    row_count, issues = check_file(args.csv_file)
+    print(format_report(args.csv_file.name, row_count, issues))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
