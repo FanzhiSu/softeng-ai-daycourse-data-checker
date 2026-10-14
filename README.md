@@ -14,7 +14,7 @@ If working locally instead, use Python 3.12, `python -m pip install -e '.[test]'
 
 ## The six practicals
 
-1. **Design (AI chat):** use [`instructor/practical-1-brief.md`](instructor/practical-1-brief.md) to discuss missing information, then fill in a few bullets in [`DESIGN.md`](DESIGN.md).
+1. **Design (AI chat):** use [`instructor/practical-1-brief.md`](instructor/practical-1-brief.md) to discuss missing information. Draft a few bullets in chat or a note; paste them into [`DESIGN.md`](DESIGN.md) when you open Codespaces in Practical 2.
 2. **Coding (VS Code Chat):** explore CLI/range-check code, then use [`instructor/practical-2-brief.md`](instructor/practical-2-brief.md) to implement `--minimum` / `--maximum`. Run the checker **manually** with defaults and custom limits. Install Ruff and run `ruff check .` / `ruff format .`.
 3. **Environments (manual):** compare the baseline NumPy 1.x environment with a separate NumPy 2.x environment using the **same source**; record observations in [`ENVIRONMENT.md`](ENVIRONMENT.md). See commands below.
 4. **Testing (manual → agent):** open `tests/test_numeric_range.py` and add a test requiring `nan`, `inf`, `-inf` to be reported as `invalid`, not `range`. Run `pytest -q` and observe the failure. Then use your CLI coding agent's **Plan** mode to propose the smallest fix, review it, and use **Build** to implement without editing the test or `find_duplicates`. Run all tests.

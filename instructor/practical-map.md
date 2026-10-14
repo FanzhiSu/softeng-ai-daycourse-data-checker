@@ -1,117 +1,36 @@
-# Practical / repository map
+# Instructor map — guided exercises and repository states
 
-## One repository, one Codespace
+This unassessed course intentionally publishes reference solutions and instructor notes.
 
-Each participant should fork this repository and keep the same Codespace open
-throughout the day. The canonical repository is intended to live under the
-OxfordRSE GitHub organisation.
+| Module | Guided core exercise | Prepared support |
+| --- | --- | --- |
+| 1 Design | Ask AI about missing context; write a few DESIGN.md bullets | `instructor/practical-1-brief.md`, template |
+| 2 Coding | Explore CLI, ask VS Code Chat for `--minimum` / `--maximum`, run manually, use Ruff | `instructor/practical-2-brief.md`, `recovery/p2` |
+| 3 Environments | Run same source with NumPy 1 and NumPy 2; record observations | `ENVIRONMENT.md`, `recovery/p3` |
+| 4 Testing | Add one failing non-finite test manually; agent Plan/Build fixes it | `tests/test_numeric_range.py`, `recovery/p4` |
+| 5 Git | Inspect changes, branch, stage, commit, restore | `tools/recover.sh p4`, meaningful history |
+| 6 GitHub | Web fork, issue, prepared PR review, README change on web branch, PR and CI | `instructor/github-issue-2.md`, `review/exercise`, `demo/ci-*` |
 
-## Practical 1: Software design
+## Practical 1 handoff
 
-The practical does not require repository changes. Participants use the
-incomplete brief (`instructor/practical-1-brief.md`), explore requirements with
-AI chat, and converge on the shared feature: configurable measurement limits.
+Participants can draft their design in AI chat before opening Codespaces. They can paste a short version into the supplied `DESIGN.md` template when they open the repository for Practical 2. No GitHub operation is required in Module 1.
 
-Expected artefact: `DESIGN.md` updated with the shared specification.
+## Practical 2 reference
 
-## Practical 2: Coding a bounded change
+`recovery/p2` exposes the options through `python -m research_check examples/observations.csv --maximum 9`. The default remains 0–100. Do not require automated tests in this practical; run manually.
 
-Target feature (`instructor/practical-2-brief.md`): configurable minimum and
-maximum limits, as function arguments with defaults.
+## Practical 3 reference
 
-Reference change to `src/research_check/cli.py`:
+The project supports NumPy 1.x. NumPy 2.x is deliberately incompatible because `np.float_` was removed. Two virtual environments demonstrate the difference without modifying source. `recovery/p3` contains a sample completed record.
 
-```python
-def check_file(
-    path: Path,
-    *,
-    minimum: float = 0.0,
-    maximum: float = 100.0,
-) -> tuple[int, list[Issue]]:
-    ...
-    issues.extend(check_numeric_range(rows, "measurement", minimum, maximum))
-    ...
-```
+## Practical 4 reference
 
-A reference solution and test live on the `recovery/p2` branch.
+The baseline has a passing test in `tests/test_numeric_range.py`. The new participant-written test should fail on `main`; the reference `recovery/p4` adds the test and the `math.isfinite` implementation. `find_duplicates` is unchanged.
 
-## Practical 3: Environments and dependencies
+## Practical 5 recovery
 
-The baseline declares `numpy>=1.26,<2` and works. Participants create a second
-environment with NumPy 2.x:
+`tools/recover.sh p4` reconstructs the cumulative changes as unstaged working-tree modifications. Switching to a solution branch is different: it checks out committed source. Have participants commit or stash before exploring solution branches.
 
-```bash
-python -m venv .venv2
-source .venv2/bin/activate
-python -m pip install "numpy>=2" pytest
-PYTHONPATH=src python -m research_check.cli examples/observations.csv
-```
+## Practical 6 demonstrations
 
-This should fail with an `AttributeError` for `np.float_`. Make the distinction
-explicit: the NumPy 2.x environment deliberately conflicts with the project's
-declared `numpy<2` requirement, so this is an API incompatibility rather than
-something isolation resolves.
-
-Participants record both environments, observed behaviour, the selected
-constraint and the rationale in `ENVIRONMENT.md`. A reference record lives on
-the `recovery/p3` branch.
-
-## Practical 4: Software testing
-
-Participants add a test for current behaviour and a failing test for the
-non-finite edge case in `check_numeric_range`. The instructor key is
-`instructor/practical-4-key.md`.
-
-Reference solution: `recovery/p4` (failing test plus the `math.isfinite` fix).
-
-`find_duplicates` must not change. The longitudinal reveal uses
-`examples/longitudinal.csv`.
-
-## Practical 5: Version control
-
-Participants use their actual morning changes.
-
-Suggested sequence:
-
-```bash
-git status
-git log --oneline
-git diff
-```
-
-Stage selectively, make coherent commits, create a branch, push it, then make a
-small unwanted change and recover it with `tools/recover.sh`.
-
-After the manual Git exercise, give the coding agent a bounded task. The agent
-must not stage, commit, push, open PRs/issues, or merge.
-
-## Practical 6: Collaborative development
-
-Participants work in their own forks. They open an issue from
-`instructor/github-issue-2.md` (a tiny documentation change with an explicit
-interface, boundary and acceptance criterion), then branch, commit, push, open a
-pull request and inspect CI.
-
-Review is substantive. Participants review one another's pull requests where
-possible. A prepared fallback pull request on the `review/exercise` branch
-contains a deliberate scope/acceptance problem; the answer is in
-`instructor/practical-6-pr-review-key.md`.
-
-## Final reveal
-
-Run:
-
-```bash
-python -m research_check.cli examples/longitudinal.csv
-```
-
-Repeated sample IDs are reported as duplicates. The characterisation test still
-passes, Git history still looks coherent, and CI can be green. The issue is a
-domain/specification assumption: longitudinal observations are uniquely
-identified by `(sample_id, timepoint)`, not `sample_id` alone.
-
-## Recovery checkpoints
-
-`tools/recover.sh <baseline|p2|p3|p4>` restores a checkpoint into the working
-tree as **unstaged** changes, so Practical 5 still has real work to inspect.
-It backs up and stashes existing work first, and never discards it.
+Open PRs from `review/exercise`, `demo/ci-passing`, and `demo/ci-failing` against the canonical `main`. Do not merge the planted bad PR or failing CI demo. Participants make their own documentation change using the GitHub web editor on their own fork; no terminal remote setup is required.
