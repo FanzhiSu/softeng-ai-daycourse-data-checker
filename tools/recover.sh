@@ -7,8 +7,8 @@
 # The script restores a cumulative checkpoint into the working tree as
 # UNSTAGED changes, so that Practical 5 still has real work to inspect.
 #
-# It never discards work: before changing anything it writes a full tarball
-# backup of the working tree and stashes tracked/untracked changes. Both are
+# It preserves non-ignored source work: before changing anything it writes a tarball
+# backup of the working tree and stashes tracked/untracked changes. Ignored virtual environments are excluded. Both are
 # recoverable afterwards.
 #
 set -euo pipefail
@@ -83,10 +83,14 @@ else
     echo "No uncommitted work to stash."
 fi
 
-# 3. Reset tracked files to the baseline (main) and remove untracked leftovers.
-#    Ignored paths such as .venv and .recovery-backups are preserved.
-git switch --force main >/dev/null 2>&1 || git checkout --force main >/dev/null
-git clean -fd >/dev/null
+# 3. Switch safely to baseline after preserving participant edits.
+#    Do not force-switch or clean untracked files. If something remains that
+#    prevents switching, stop and let the participant/instructor inspect it.
+if [ -n "$(git status --porcelain)" ]; then
+    echo "Error: working tree is not clean after backup/stash; stopping." >&2
+    exit 1
+fi
+git switch main >/dev/null
 
 # 4. Apply the checkpoint into the working tree as unstaged changes.
 if [ "$LEVEL" != "baseline" ]; then

@@ -19,7 +19,7 @@ If working locally instead, use Python 3.12, `python -m pip install -e '.[test]'
 3. **Environments (manual):** compare the baseline NumPy 1.x environment with a separate NumPy 2.x environment using the **same source**; record observations in [`ENVIRONMENT.md`](ENVIRONMENT.md). See commands below.
 4. **Testing (manual → agent):** open `tests/test_numeric_range.py` and add a test requiring `nan`, `inf`, `-inf` to be reported as `invalid`, not `range`. Run `pytest -q` and observe the failure. Then use your CLI coding agent's **Plan** mode to propose the smallest fix, review it, and use **Build** to implement without editing the test or `find_duplicates`. Run all tests.
 5. **Local Git:** inspect `git status`, `git diff`, and `git log`; create `my-changes`; stage, inspect and commit accepted work. Make a deliberate unwanted edit, inspect it, and discard it with `git restore <file>`. **Do not push.**
-6. **GitHub (web interface):** fork the canonical repository now; use [`instructor/github-issue-2.md`](instructor/github-issue-2.md) to create a small issue in your fork, review the instructor's prepared PR, then edit README in your fork via GitHub's pencil icon, create a new branch, and open a PR **into your fork's main**. Inspect CI. No `git remote add` or `git push` needed.
+6. **GitHub (web interface):** fork the canonical repository now; select a [prepared upstream issue](instructor/github-issue-2.md) and suggest a clarification; review the instructor's prepared PR; then edit the relevant documentation in your fork using GitHub's web editor and commit on a new branch. Open a PR **from your fork into the canonical upstream repository's `main`**. Inspect CI and review another participant's PR. Do not merge course PRs unless the instructor asks. No terminal remote or push commands are needed.
 
 ### Practical 3: exact commands
 
@@ -54,18 +54,12 @@ If you fall behind, from the repo root run `tools/recover.sh p2`, `p3`, or `p4` 
 
 The instructor will provide a direct URL to a pre-opened PR from `review/exercise`, with a deliberately out-of-scope change. Review the issue, changed files and CI result; decide what you would request before merging. The instructor will demonstrate Code, Issues, PRs and Actions tabs, and show a passing and a failing CI run.
 
-If Issues are disabled on your fork, enable them in your fork's **Settings → General → Features → Issues** (GitHub's interface may vary).
+Create and discuss issues in the **canonical upstream repository**, not in your fork. The instructor will publish several small documentation issues beforehand. For a PR, verify that the **base repository** is the canonical upstream repository and the **head repository** is your fork. A first-time contributor's CI workflow may require maintainer approval.
 
 ## Going further
 
 Compare alternative AI implementations, add further numeric edge-case tests, inspect solution branches in Git Graph, or ask AI to review the prepared PR and compare its findings with yours. Avoid changing `find_duplicates` before the final wrap-up.
 
-## Scientific-assumption reveal
+## Wrap-up
 
-After the course practicals, run:
-
-```bash
-python -m research_check examples/longitudinal.csv
-```
-
-Repeated sample IDs are flagged even when each row is a distinct timepoint. The tests can pass and the code can meet its specification while the domain assumption is unsuitable.
+The instructor will demonstrate how passing tests and CI do not necessarily establish that a scientific assumption is appropriate.

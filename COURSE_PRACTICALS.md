@@ -9,6 +9,6 @@ Follow the guided instructions in [README.md](README.md) and the Slidev presenta
 | 3 Environments | NumPy 1 vs 2, record observations | Compatibility strategy |
 | 4 Testing | Human-written failing test; agent Plan/Build | Characterisation test |
 | 5 Git | Branch, inspect, commit, restore | Switch recovery branches |
-| 6 GitHub | Fork, issue, prepared PR review, docs PR in web UI | Peer/AI review |
+| 6 GitHub | Fork, prepared upstream issue, prepared PR review, docs PR to upstream in web UI, peer review | AI review |
 
 Use `tools/recover.sh p4` if you need the accumulated working changes for Practical 5.

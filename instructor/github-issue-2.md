@@ -1,15 +1,18 @@
-# Practical 6 — Small GitHub documentation contribution
+# Practical 6 — Documentation contribution (participant brief)
 
-Create an issue **in your fork** (enable Issues in Settings if needed).
+Choose one of the **prepared issues in the canonical upstream repository** (see `issue-options.md` for examples). Read it and add a short comment suggesting a clarification or acceptance criterion. You do not need to invent a new issue.
 
-**Interface:** Add a README section `Running on your own data` showing:
+**Interface:** Make the requested documentation improvement.
 
-```bash
-python -m research_check path/to/your-data.csv
-```
+**Boundary:** Edit only the documentation file identified in the issue. Do not change source, data, tests, or CI.
 
-**Boundary:** Edit README only. Do not change code, data, or tests.
+**Acceptance:** The change meets the issue, the diff is focused, and CI is visible on the PR.
 
-**Acceptance:** The section exists, the command is correct, and the PR diff touches README only. CI should be green.
+In your **fork**, use GitHub's web editor to make the small change. Choose **Create a new branch for this commit**. Then open a pull request with:
 
-Use GitHub's web editor: edit README, choose **create a new branch**, commit, then open a PR with both base and head repositories set to **your fork**.
+- **Base repository:** canonical upstream OxfordRSE teaching repository
+- **Base branch:** `main`
+- **Head repository:** your fork
+- **Compare branch:** your new documentation branch
+
+Link the upstream issue, inspect CI, review another participant's PR and respond to feedback. **Do not merge into upstream** unless invited by the instructor.
