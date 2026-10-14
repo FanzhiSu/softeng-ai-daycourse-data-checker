@@ -9,7 +9,7 @@ All keys are deliberately public in this unassessed course.
 5. Verify Practical 4: a human-written test fails on baseline and passes on `recovery/p4`. Configure/authenticate the selected CLI agent **before class**; confirm Plan/Build or equivalent is available.
 6. Run `tools/recover.sh p4` from a clean participant checkout. Verify it leaves changed files unstaged and the new test file untracked. Test stash/backup recovery with dirty participant files.
 7. Publish a **prepared PR** from `review/exercise` into canonical `main` and link it in the teaching slides. The branch changes a README plus a CLI behaviour: green CI does not justify accepting the scope change.
-8. Prepare a **separate demonstration PR with failing CI** (instructor-only demo branch), and a passing PR. Walk through Code, Issues, PRs, Actions.
+8. Open two instructor demonstration PRs: `demo/ci-failing` (expected red CI) and `demo/ci-passing` (expected green CI). Do not merge the failing example. Walk through Code, Issues, PRs, Actions.
 9. Rehearse the participant workflow with a separate GitHub account: Codespace without forking, fork later, enable Issues if needed, web edit on new branch, PR into own fork, see Actions CI.
 10. Confirm public repository URL, licensing policy, CI on Python 3.12, and access to any agent service.
 
