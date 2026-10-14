@@ -1,81 +1,16 @@
-# Instructor setup
+# Instructor setup and rehearsal
 
-## One repository all day
+All keys are deliberately public in this unassessed course.
 
-Publish this repository as the canonical OxfordRSE repository. Participants
-**fork** it (not "Use this template": template repositories start with a single
-commit and do not preserve the Git history required for Practical 5). Each
-participant launches one Codespace from their fork and keeps it open throughout
-the day.
+1. Publish the Git repository with its **full history**, `main`, `recovery/p2`, `recovery/p3`, `recovery/p4`, and `review/exercise` branches. Do not use a GitHub template (it loses the history).
+2. Verify the devcontainer starts on Python 3.12 and installs the package and pytest with NumPy 1.x. Verify `python -m research_check examples/observations.csv` succeeds.
+3. Verify Practical 2 reference on `recovery/p2`: both CLI commands work, with the custom maximum producing more range issues.
+4. Verify Practical 3: a second virtual environment with NumPy 2 fails with an `np.float_` API error; `deactivate` restores the baseline interpreter.
+5. Verify Practical 4: a human-written test fails on baseline and passes on `recovery/p4`. Configure/authenticate the selected CLI agent **before class**; confirm Plan/Build or equivalent is available.
+6. Run `tools/recover.sh p4` from a clean participant checkout. Verify it leaves changed files unstaged and the new test file untracked. Test stash/backup recovery with dirty participant files.
+7. Publish a **prepared PR** from `review/exercise` into canonical `main` and link it in the teaching slides. The branch changes a README plus a CLI behaviour: green CI does not justify accepting the scope change.
+8. Prepare a **separate demonstration PR with failing CI** (instructor-only demo branch), and a passing PR. Walk through Code, Issues, PRs, Actions.
+9. Rehearse the participant workflow with a separate GitHub account: Codespace without forking, fork later, enable Issues if needed, web edit on new branch, PR into own fork, see Actions CI.
+10. Confirm public repository URL, licensing policy, CI on Python 3.12, and access to any agent service.
 
-## Baseline state
-
-- `pyproject.toml` declares `numpy>=1.26,<2` and a `test` extra of `pytest>=8,<9`.
-- A fresh `pip install -e ".[test]"` produces a working environment.
-- Continuous integration installs the project and runs `pytest -q` on Python
-  3.12, and passes from the baseline.
-- `src/research_check/summary.py` uses `np.float_`, which is removed in NumPy 2.0.
-- `src/research_check/checks.py` contains a deliberately simplistic duplicate
-  check and an unhandled edge case in `check_numeric_range` (see
-  `instructor/practical-4-key.md`).
-- `tests/test_smoke.py` and `tests/test_report.py` are the starter tests.
-
-## Practical 2 instructor sequence
-
-Use `instructor/practical-2-brief.md`. The target change is function arguments
-with defaults in `check_file`, not configuration files or CLI flags. A reference
-implementation and test live on the `recovery/p2` branch.
-
-## Practical 3 instructor sequence
-
-1. Confirm the baseline environment works:
-   `python -m research_check.cli examples/observations.csv`.
-2. Create a second environment with NumPy 2.x and rerun. It should fail with an
-   `AttributeError` for `np.float_`.
-3. Make the distinction explicit: the second environment deliberately conflicts
-   with the declared `numpy<2` requirement. This is an API incompatibility, not
-   something isolation solves.
-4. Discuss restoring the historical environment (`numpy>=1.26,<2`) versus
-   updating the code to `np.float64`.
-5. Record both environments, behaviour, the chosen constraint and rationale in
-   `ENVIRONMENT.md` (reference on `recovery/p3`).
-
-## Practical 4 instructor sequence
-
-The `check_numeric_range` edge case is intentionally unhandled. Participants
-write a passing test for current behaviour and a failing test for non-finite
-values, then use a CLI agent in Plan/Build mode to fix it. Do not reveal the
-duplicate-ID domain issue yet. Keep `find_duplicates` unchanged. Reference on
-`recovery/p4`.
-
-## Practical 5 instructor sequence
-
-Participants should have several genuine files changed from the morning. This is
-intentional: Git is introduced as a way to understand and manage work they have
-already done. Include selective staging, coherent commits, branching and push,
-then a small unwanted-change recovery exercise using `tools/recover.sh`.
-
-Agent boundary for the coding task:
-
-```text
-Modify the working tree and run the tests.
-Do not stage or commit changes.
-Do not push changes.
-Do not create issues or pull requests.
-Do not merge anything.
-Stop when the requested work is complete.
-```
-
-## Practical 6 instructor sequence
-
-Prefer peer review: participants review one another's pull requests. As a
-fallback, the `review/exercise` branch contains a tiny change with a deliberate
-scope/acceptance problem; the answer key is
-`instructor/practical-6-pr-review-key.md`. CI runs on `pull_request`.
-
-## Recovery checkpoints
-
-`tools/recover.sh <baseline|p2|p3|p4>` restores a cumulative checkpoint into the
-working tree as unstaged changes. It first makes a tarball backup and a Git
-stash, then applies the checkpoint without committing, so Practical 5 still has
-real work to inspect. Test all recovery states before the course.
+The reveal uses `examples/longitudinal.csv` and the unmodified `find_duplicates` function. Do not spoil this during earlier teaching.

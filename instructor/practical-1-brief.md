@@ -1,36 +1,11 @@
-# Practical 1 brief: Research Data Checker
+# Practical 1 — Guided design conversation
 
-## The brief (deliberately incomplete)
+A research group receives CSV files containing measurements. They want to identify potential problems before analysis, without changing the original data.
 
-> Build a small tool that checks research data for potential problems before
-> the data are analysed.
+1. Paste this brief into AI chat and ask which details are missing.
+2. Discuss two or three of the questions. Make reasonable assumptions where needed.
+3. In `DESIGN.md`, record a few bullet points for purpose, expected behaviour, constraints, and open questions.
 
-The data are supplied as CSV files. We have **not** yet decided:
+For the shared coding exercise, the agreed feature is **configurable minimum and maximum measurement limits**. Keep the existing default behaviour when options are omitted.
 
-- which columns are required, and what a missing value means;
-- what "valid" means for a measurement;
-- whether repeated sample IDs are a problem;
-- which checks should be fixed and which should be configurable;
-- what the tool should output, and who reads it.
-
-## Task
-
-Work in an ordinary chat assistant. Provide the research context you have in
-mind. Ask the assistant to:
-
-- identify the information that is missing from this brief;
-- propose clarifying questions;
-- challenge assumptions that different researchers would make differently;
-- distinguish domain decisions from engineering decisions.
-
-Do **not** ask the assistant to write the software yet.
-
-## Convergence
-
-Before Practical 2 we converge on a shared, minimal specification for one
-bounded feature:
-
-> **Configurable minimum and maximum measurement limits.**
-
-Record the shared specification in `DESIGN.md`. That document becomes reusable
-context for later AI conversations and coding tasks.
+The point is to experience how conversation builds reusable context, not to design an entire application.

@@ -30,9 +30,6 @@ def find_missing(rows: Iterable[dict[str, str]], column: str) -> list[Issue]:
 def find_duplicates(rows: Iterable[dict[str, str]], key: str) -> list[Issue]:
     """Find repeated values in a column.
 
-    This deliberately simplistic behaviour is useful for the course: later we
-    discover that repeated sample IDs can be legitimate when measurements are
-    taken at multiple timepoints.
     """
     seen: dict[str, int] = {}
     issues: list[Issue] = []

@@ -1,22 +1,15 @@
-# Document how to run the checker on your own data
+# Practical 6 — Small GitHub documentation contribution
 
-## Interface
+Create an issue **in your fork** (enable Issues in Settings if needed).
 
-Add a short subsection to `README.md` titled **Running on your own data** that
-shows how to point the checker at a CSV file:
+**Interface:** Add a README section `Running on your own data` showing:
 
 ```bash
-python -m research_check.cli path/to/your-data.csv
+python -m research_check path/to/your-data.csv
 ```
 
-## Boundary
+**Boundary:** Edit README only. Do not change code, data, or tests.
 
-- Do not change validator behaviour, defaults or example data.
-- Do not change any source files.
-- Do not change existing tests.
+**Acceptance:** The section exists, the command is correct, and the PR diff touches README only. CI should be green.
 
-## Acceptance
-
-- `README.md` contains the new subsection and the example command.
-- `pytest -q` still passes.
-- `git diff` touches only `README.md`.
+Use GitHub's web editor: edit README, choose **create a new branch**, commit, then open a PR with both base and head repositories set to **your fork**.

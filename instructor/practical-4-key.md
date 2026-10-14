@@ -1,6 +1,6 @@
 # Practical 4 instructor key: edge cases in `check_numeric_range`
 
-**Do not distribute this file to participants.** It contains the reference
+**Reference solution (available to participants).** It contains the reference
 defect, the expected test and the reference fix.
 
 `find_duplicates` and the longitudinal-data example must not be changed. The

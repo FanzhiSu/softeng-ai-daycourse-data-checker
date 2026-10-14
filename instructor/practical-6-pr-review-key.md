@@ -1,6 +1,6 @@
 # Practical 6 instructor key: pull request review
 
-**Do not distribute this file to participants.**
+**Reference solution (available to participants).**
 
 ## The requested change
 

@@ -1,24 +1,14 @@
-# Environment record
+# Environment investigation (Practical 3)
 
-Use this file to record the environment decisions made during the course.
+## Environment A — baseline
+Python version:  
+NumPy version:  
+Observed result:  
 
-## Environment A
+## Environment B — NumPy 2.x
+Python version:  
+NumPy version:  
+Observed result:  
 
-- Python version:
-- NumPy version:
-- Observed behaviour:
-
-## Environment B
-
-- Python version:
-- NumPy version:
-- Observed behaviour:
-
-## Selected dependency constraint
-
-<!-- e.g. numpy>=1.26,<2 -->
-
-## Rationale
-
-<!-- Why this constraint? Restore the historical environment, or update the
-code for a newer dependency? What are the trade-offs? -->
+## Discussion
+Would you restore the historical environment or update the code? Why?  

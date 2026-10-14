@@ -1,28 +1,18 @@
-# Practical 2 brief: configurable measurement limits
+# Practical 2 — CLI configurable measurement limits
 
-## Interface
+The checker currently accepts a CSV filename and uses limits of 0–100.
 
-Allow callers to configure the minimum and maximum measurement limits when
-checking a file.
+**Task for VS Code Chat:** Add optional `--minimum` and `--maximum` command-line options, with defaults 0 and 100. Pass them to `check_file` and the range checker. Preserve all other behaviour.
 
-Prefer **function arguments with sensible defaults** over configuration files
-or extensive command-line changes:
+**Manual checks (no pytest yet):**
 
-```python
-check_file(path, *, minimum=0.0, maximum=100.0)
+```bash
+python -m research_check examples/observations.csv
+python -m research_check examples/observations.csv --maximum 9
 ```
 
-The defaults must preserve the current behaviour (0.0 to 100.0 inclusive).
+The second command should report more out-of-range measurements. Inspect the diff before accepting the AI change.
 
-## Boundary
+**Ruff:** `python -m pip install ruff`, `ruff check .`, `ruff format .`.
 
-- Do not change the existing checks, reporting or example data.
-- Do not change the duplicate-detection behaviour.
-- Do not change the default limits.
-
-## Acceptance
-
-- `check_file(path)` behaves exactly as before.
-- `check_file(path, maximum=9.0)` reports more out-of-range measurements.
-- A test demonstrates the configurable behaviour.
-- `pytest -q` passes.
+**Going further:** Add `--minimum 11` and compare output.
