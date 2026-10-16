@@ -22,7 +22,13 @@ def check_file(path: Path) -> tuple[int, list[Issue]]:
     issues.extend(find_missing(rows, "measurement"))
     issues.extend(find_duplicates(rows, "sample_id"))
     issues.extend(check_numeric_range(rows, "measurement", 0.0, 100.0))
-    measurements = [float(r["measurement"]) for r in rows if r.get("measurement", "").strip()]
+    measurements = []
+    for row in rows:
+        raw = row.get("measurement", "").strip()
+        try:
+            measurements.append(float(raw))
+        except ValueError:
+            continue
     if measurements:
         _ = mean_as_float(measurements)
     return len(rows), issues
