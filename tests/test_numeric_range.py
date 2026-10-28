@@ -12,4 +12,3 @@ def test_non_finite_measurement_is_invalid():
 def test_measurement_inside_range_has_no_issues():
     rows = [{"measurement": "50"}]
     assert check_numeric_range(rows, "measurement", 0.0, 100.0) == []
-git
